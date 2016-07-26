@@ -1,0 +1,7 @@
+配置nginx:
+1.在home/linwei/var目录下新建www目录
+2.新建thinkphp项目
+3.配置nginx：进入/etc/nginx/sites-enabled/目录下 sudo vim thinkphpdemo.conf 配置参数 sudo vim hosts
+4.重启nginx sudo nginx -s reload
+5.给项目赋予新建文件的权限：sudo chmod 777 -RF thinkphpdemo/
+6.登录域名

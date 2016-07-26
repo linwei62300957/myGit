@@ -1,0 +1,41 @@
+server {
+    listen 80;
+
+    server_name lw.thinkphpdemo.com;访问域名
+
+    root /var/www/thinkphpdemo;项目名
+
+    access_log /var/log/nginx/thinkphp.access.log;//登陆日志
+    error_log /var/log/nginx/thinkphp.error.log;//错误日志
+
+    location / {
+        index index.php;
+
+        if (!-e $request_filename) {
+           rewrite  ^(.*)$  /index.php?s=$1  last;
+           break;
+        }
+    }
+
+    location ~ ^/(index)\.php(/|$) {
+        fastcgi_pass   unix:/var/run/php5-fpm.sock;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+        fastcgi_param  HTTPS              off;
+         
+     
+    }
+
+    location ~ ^/files/.*\.(php|php5)$ {
+        deny all;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass   unix:/var/run/php5-fpm.sock;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME    $document_root$fastcgi_script_name;
+        fastcgi_param  HTTPS              off;
+    }
+}
